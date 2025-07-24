@@ -91,7 +91,10 @@ function Logo() {
 ```
 Logo is a function, not a React element.
 
-To get the React element it returns, you have to call it in JSX as <Logo />.
+To get the React element it returns, you have to call it in JSX as 
+```js
+<Logo />
+```
 
 
 ## Multiple Elements 
@@ -109,11 +112,14 @@ root.render(
 );
 
 
-// using fragments, to ignore the creation of unneccesary another parent into the pre existing root tag into the html, we can use the fragment tag provide by the react library that, simply just appends the chikdren element into the code rather than creating unneccesary parent tag.
+// using fragments, to ignore the creation of unneccesary another parent into the pre existing root tag into the html, 
+// we can use the fragment tag provide by the react library that, simply just appends the children element into the code rather than creating unneccesary parent tag.
 // In React, Fragments let you group multiple elements without adding extra nodes to the DOM.
 
 
-//You cannot use <Fragment></Fragment> directly unless you explicitly import Fragment from React. eg(import { Fragment } from "react")
+//You cannot use <Fragment></Fragment> directly unless you explicitly import Fragment from React. 
+// eg:-
+
 import { Fragment } from "react";
 
 function Example() {
@@ -151,11 +157,10 @@ function Example() {
 
 ```jsx
 // declarative (what to do, and computer does it);
-import { createElement } from "react"
 import { createRoot } from "react-dom/client"
 
 const root = createRoot(document.getElementById("root"));
-const rootElement = createElement("h1", null, "hello! react");
+const rootElement = <h1 className="header" >Hello yaar</h1>;
 root.render(
     rootElement
 );
