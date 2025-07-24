@@ -62,7 +62,8 @@ root.render(
 
 
 // Second Method
-function MainContent(){ // name these functions in first letter capital (PascalCase) so that it is viewed as a componenet. (React treats anything starting with a lowercase letter as a native HTML tag.)
+function MainContent(){ // name these functions in first letter capital (PascalCase) so that it is viewed as a componenet. 
+//(React treats anything starting with a lowercase letter as a native HTML tag.)
 
      return (
         <h1>React is great!</h1>;
