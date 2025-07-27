@@ -32,7 +32,9 @@ This will launch our React app in a browser at http://localhost:3000.
 
 then we can modify the app.js from the src folder to use the app
 
-# import
+# Basic
+
+## import
 
 import from "react"
 This imports the core React library, which is used to build components and define UI logic.
@@ -40,13 +42,33 @@ This imports the core React library, which is used to build components and defin
 import from "react-dom/client"
 This is part of the React DOM renderer, responsible for rendering React elements into the actual DOM (i.e., into HTML on the page).
 
-# class
+## class
 
 ```js
 className; // use className instead of class to use class in JSX(react).
 ```
 
-# render 
+## React Element
+A React Element is a plain JavaScript object that describes what you want to see on the screen.
+
+```js
+const element = <h1>Hello world</h1>;
+```
+
+## React Component
+
+A React Component is a function or class that returns React elements. It's how you build reusable UI pieces.
+```js
+function Greeting() {
+  return <h1>Hello from component!</h1>;
+}
+```
+
+## render 
+
+displaying to the user
+
+
 ## One liners
 
 here are some different ways to render a single line componenet in react.
@@ -153,7 +175,7 @@ function Example() {
 }
 ```
 
-# declarative vs imperative
+## declarative vs imperative
 
 ```jsx
 // declarative (what to do, and computer does it);
@@ -174,6 +196,62 @@ h1.className = "header";
 div.appendChild(h1);
 ```
 
+## Export
+
+to export a component we can do simply like this 
+
+```jsx
+export default function Header() {
+    return (
+        <header className="header">
+            <img src="react-logo.png" className="nav-logo" alt="React logo" />
+            <nav>
+                <ul className="nav-list">
+                    <li className="nav-list-item">Pricing</li>
+                    <li className="nav-list-item">About</li>
+                    <li className="nav-list-item">Contact</li>
+                </ul>
+            </nav>
+        </header>
+    )
+}
+```
+
+## Import 
+
+when importing if it's a default export we don't need to use {}, also in default exports we can use any name
+for the component.
+
+```jsx
+import Header (any name) from "./Header.jsx"
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # useState
 Importing React and useState:
 
@@ -182,7 +260,7 @@ In React (and other frameworks), state management is the process of handling and
 
 A state variable count and its updater function setCount are initialized with useState(0). This means the counter starts at 0.
 
-```js
+```jsx
 import React, { useState } from 'react';
 
 
@@ -225,7 +303,7 @@ An example counter app:-
 
 counter.js:-
 
-```js
+```jsx
 import React, { useState } from 'react'
 
 const Counter1 = ()=>{
