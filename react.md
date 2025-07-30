@@ -226,18 +226,156 @@ for the component.
 import Header (any name) from "./Header.jsx"
 ```
 
+## props 
+
+objects
+a data driven way to make the code writing proccess tidier and efficient 
+
+### string props
+use ""
+
+```jsx
+
+import Contact from "./Contact"
+
+function App() {
+    return (
+        <div className="contacts">
+            <Contact
+                img="./images/mr-whiskerson.png"
+                name="Mr. Whiskerson"
+                phone="(212) 555-1234"
+                email="mr.whiskaz@catnap.meow"
+            />
+            <Contact
+                img="./images/fluffykins.png"
+                name="Fluffykins"
+                phone="(212) 555-2345"
+                email="fluff@me.com"
+            />
+            <Contact
+                img="./images/felix.png"
+                name="Felix"
+                phone="(212) 555-4567"
+                email="thecat@hotmail.com"
+            />
+            <Contact 
+                img="./images/pumpkin.png"
+                name="Pumpkin"
+                phone="(0800) CAT KING"
+                email="pumpkin@scrimba.com"
+            />
+        </div>
+    )
+}
+
+export default App
+
+// Contact.jsx
+
+export default function Contact(props) {
+    return (
+        <article className="contact-card">
+            <img
+                src={props.img}
+                alt="Photo of Mr. Whiskerson"
+            />
+            <h3>{props.name}</h3>
+            <div className="info-group">
+                <img
+                    src="./images/phone-icon.png"
+                    alt="phone icon"
+                />
+                <p>{props.phone}</p>
+            </div>
+            <div className="info-group">
+                <img
+                    src="./images/mail-icon.png"
+                    alt="mail icon"
+                />
+                <p>{props.email}</p>
+            </div>
+        </article>
+    )
+}
+```
+
+### non string props
+use {}
+
+```jsx
+<Joke
+punchline="It's hard to explain puns to kleptomaniacs because they always take things literally."
+upvotes={10} // number
+isPun={true} // boolean 
+comments={[]} // not a object its an array
+comments={[ {author: "", text: "", title: ""},
+            {author: "", text: "", title: ""} ]} // an array of objects
+/>
+```
+
+## return 
+
+implicit rturn with ()
+
+```jsx
+
+// implicit return syntax use parenthesis instead of curly braces
+jokes.map((joke, index) => (
+    <Jokes key={index} setup={joke.setup} punchline={joke.punchline} />
+))
+
+// classic function syntax 
+jokes.map(()=>{})
+
+```
+
+You’re using () instead of {} after the arrow =>.
+
+That tells React to implicitly return whatever is inside the parentheses — in this case, the <Jokes /> component.
+
+No need for a return keyword or block statement, making the code tidier.
+
+ 
+## conditional rendering
+if i wnat to include something like a setup for the joke i would use conditional rendering to render the setup
+part of that joke only if there's a setup part, else don't show the styling or the text or anything of the setup, so few ways to accomplish that directly in the dom could be:-
 
 
+```jsx
+
+// first way this will check if the setup prop exit then it will render it.
+  {props.setup && <p className="setup">Setup: {props.setup}</p>}
+  <p className="punchline">Punchline: {props.punchline}</p>
+
+// using ternary operators
+ <p style={{display: props.setup ? "block" : "none"}} className="setup">Setup: {props.setup}</p>
+
+// or using some if else, swtich case etc.
+```
+
+## import satatic images by variable name
+can use variable names instead of images direct links in vite.
+it helps if you compress the code, it will help vite when it compresses files.
+
+```jsx
+import mrWhiskerson from "./images/mr-whiskerson.png"
+import fluffykins from "./images/fluffykins.png"
+import felix from "./images/felix.png"
+import pumpkin from "./images/pumpkin.png"
 
 
-
-
-
-
-
-
-
-
+function App() {
+    return (
+        <div className="contacts">
+            <Contact
+                img={mrWhiskerson}
+                name="Mr. Whiskerson"
+                phone="(212) 555-1234"
+                email="mr.whiskaz@catnap.meow"
+            />
+    )
+```
 
 
 
