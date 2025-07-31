@@ -314,6 +314,10 @@ comments={[ {author: "", text: "", title: ""},
 />
 ```
 
+## key
+
+it is reccommended to not use index as an unique identifier for your elemnts in the map fucntion but use id instead (ex form api).
+
 ## return 
 
 implicit rturn with ()
@@ -377,8 +381,95 @@ function App() {
     )
 ```
 
+## render array
+
+react can render array but as plain text on the screen
+
+```jsx
+const ninjaTurtles = ["Donatello", "Michaelangelo", "Rafael", "Leonardo"]
+    return (
+        <main>
+            {ninjaTurtles}
+        </main>
+    )
+}
+```
+
+but can't render an object, you'll get an error, but it can render an jsx elemnet as an object,for ex:-
+
+```jsx
+export default function App() {
+    const jsx = <h1>Donatello</h1>
+    conso
+    return ()
+}
+
+// {type: 'h1', key: null, props: {children: 'Donatello'}, _owner: FiberNode, _store: {}}
+```
+
+but it can render an array of jsx on the page for ex:-
+
+```jsx
+export default function App() {
+    const ninjaTurtles = [
+        <h2>Donatello</h2>, 
+        <h2>Michaelangelo</h2>,
+        <h2>Rafael</h2>,
+        <h2>Leonardo</h2>
+    ]
+    return (
+        <main>
+            {ninjaTurtles}
+        </main>
+    )
+}
+```
+
+## obj prop
+
+so when we have many prop for a single react elment, it becomes lengthy, to fix that we can just simply access all the props that we are getting (ex:- form api),
+
+```jsx
+export default function App() {
+    
+    const entryElements = data.map((entry) => {
+        return (
+            <Entry
+                key={entry.id}
+                entry={entry}
+            />
+        )
+    })
+```
+
+but we have to match the recieving end of the code, and also match the names in the api ex:-
+
+```jsx
+<img 
+    src={props.entry.img.src} // instead if props.img.src
+    alt={props.entry.img.alt}
+/>
+
+img: { // it con't be image or some other name, all should match.
+        src: "https://scrimba.com/links/travel-journal-japan-image-url",
+        alt: "Mount Fuji"
+    }
 
 
+// an alternative can be using spread operator, then we don't have to make any changes, it will match all the properties like they are, ex:-
+
+img:{props.img.src}
+
+
+const entryElements = data.map((entry) => {
+        return (
+            <Entry
+                key={entry.id}
+                {...entry} // same as .id,.img etc, with same name as the data (api).
+            />
+        )
+    })
+```
 
 
 
