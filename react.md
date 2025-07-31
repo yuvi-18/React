@@ -640,6 +640,7 @@ onsubmit handler on the form element for best practise
 <form onSubmit={handleSubmit} method="post">
 ```
 
+
 ```jsx
  function handleSubmit(event) {
     event.preventDefault() {/*prevent refresh*/}
@@ -648,3 +649,28 @@ onsubmit handler on the form element for best practise
     const email = formData.get("email") // it'll give us the form email, input name should be equal to the thing we are fatching for, in here < input name="email" />
     formEl.reset() // to reset or clear the fields of the form
   }
+```
+
+
+where to submit the form info is mentioned in the form action attribute:-
+
+```jsx
+<form action="phpfile.php" onSubmit={handleSubmit} method="post">
+```
+
+react 19:-
+We can pass fucntions to our action attribute in a form in react. if we pass a action with function then we don't need a method with that, it could give an error.
+when we do this the fucntion handler doesn't recieve a event, it recives the form data.
+and it also does some default things like, preventing refresh, reseting the form, so the new handleSublimt type of code would look like:-
+
+```jsx
+function signUp(formData) {
+    const email = formData.get("email")
+
+
+    // not needed
+    event.preventDefault()
+    const formEl = event.currentTarget
+    const formData = new FormData(formEl)
+    formEl.reset() 
+}
