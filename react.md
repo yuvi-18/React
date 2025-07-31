@@ -472,14 +472,13 @@ const entryElements = data.map((entry) => {
 ```
 
 
+## Props
 
+Props refers to the properties being passed into a component in order for it to work correctly, similar to how a function receives parameters: "from above." A component receiving props is not allowed to modify those props. (I.e. they are "immutable.")
 
+## State
 
-
-
-
-
-
+State refers to values that are managed by the component, similar to variables declared inside a function. Any time you have changing values that should be saved/displayed, you'll likely be using state.
 
 # useState
 Importing React and useState:
@@ -511,6 +510,46 @@ The setCount function is called directly with the new value that you want the st
 setCount(count + 1);
 // not like the typical function syntax
 ```
+
+
+```jsx
+    function add() {
+        setCount(prevCount=> prevCount + 1) // callback function, this works keeping the old value of state in mind
+        setCount(prevCount=> prevCount + 1)
+        setCount(prevCount=> prevCount + 1)
+    } // increments by 3
+
+    // helpfull when we want state to rely on prev value of state
+
+    function subtract() {
+        setCount(count - 1)
+        setCount(count - 1)
+        setCount(count - 1)
+    } // decrements by 1
+```
+
+Note! In state, never modify the state directly, not efficient not reccommended ex:-
+count = count + 1.
+
+
+```jsx
+// state by array
+
+setIngredients(prevIngredients => [...prevIngredients, newIngredient])
+
+// state by object
+
+let starIcon = contact.isFavorite ? starFilled : starEmpty
+
+function toggleFavorite() {
+    setContact(prevContact => {
+        return {
+            ...prevContact,
+            isFavorite: !prevContact.isFavorite
+        }
+    })
+}
+
 
 ## Calling a function
 In JSX (React):
@@ -561,3 +600,51 @@ return (
 ```
 
 Now simply import the Counter1.js in app.js and call the Counter1 for the output.
+
+# Forms
+
+A basic jsx form with important attributes:-
+```jsx
+function App() {
+  return (
+    <section>
+      <h1>Signup form</h1>
+      <form method="POST">
+        <label htmlFor="email">Email:</label> {/* jsx don't have simple for so we use htmlFor, it should we associated with id of the input */}
+        <input id="email" type="email" name="email" placeholder="joe@schmoe.com" />
+      </form>
+
+      <label htmlFor="password">Password:</label>
+      <input id="password" type="password" name="password" />
+      <br />
+        
+      <input type="submit" value="Click" /> 
+      <button></button> {/*button when inside a form acts like a submit button, it's same as input type submit can give type="submit" for more stability across all browsers*/}
+
+    </section>
+  )
+}
+```
+
+## Form Submission
+
+Sensitive info in POST req for form 
+
+```jsx
+<form method="POST"> 
+```
+
+onsubmit handler on the form element for best practise 
+
+```jsx
+<form onSubmit={handleSubmit} method="post">
+```
+
+```jsx
+ function handleSubmit(event) {
+    event.preventDefault() {/*prevent refresh*/}
+    const formEl = event.currentTarget // get access to the dom node, currentTarget usage is safer
+    const formData = new FormData(formEl) // formData object will give us access to all the data of the form
+    const email = formData.get("email") // it'll give us the form email, input name should be equal to the thing we are fatching for, in here < input name="email" />
+    formEl.reset() // to reset or clear the fields of the form
+  }
