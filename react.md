@@ -549,7 +549,7 @@ function toggleFavorite() {
         }
     })
 }
-
+```
 
 ## Calling a function
 In JSX (React):
@@ -675,3 +675,141 @@ function signUp(formData) {
     const formData = new FormData(formEl)
     formEl.reset() 
 }
+```
+
+## default value
+
+```jsx
+<textarea id="description" name="description" defaultValue="This is a description"></textarea>
+```
+
+## radio input
+
+Name has to be the same for all radio buttons if you want the user to only be able to select one:-
+fieldset gives an outline.
+legend can be used to give an outline to the fieldset.
+radio buttons provied only two values by defualt, on and null so to get the value of the selected radio button, we'll give them value property.
+defaultChecked to select defualt value for an radio button
+
+
+```jsx
+<fieldset>
+          <legend>Employment Status:</legend>
+          <label>
+            <input type="radio" name="employmentStatus" value="unemployed" />
+            Unemployed
+        </label>
+          <label>
+            <input type="radio" name="employmentStatus" value="part-time" />
+            Part-time
+        </label>
+          <label>
+            <input type="radio" name="employmentStatus" defaultChecked={true} value="full-time" />
+            Full-time
+        </label>
+</fieldset>
+```
+
+
+## checkbox input
+
+checkbox gives all the checked values but to get them we need to use getAll in our function
+
+
+```jsx
+const dietaryRestrictions = formData.getAll("dietaryRestrictions")
+console.log(dietaryRestrictions) // we will get an array of data 
+
+<fieldset>
+          <legend>Dietary restrictions:</legend>
+          <label>
+            <input type="checkbox" name="dietaryRestrictions" value="kosher" />
+            Kosher
+        </label>
+          <label>
+            <input type="checkbox" name="dietaryRestrictions" value="vegan" />
+            Vegan
+        </label>
+          <label>
+            <input type="checkbox" name="dietaryRestrictions" defaultChecked={true} value="gluten-free" />
+            Gluten-free
+        </label>
+</fieldset>
+```
+
+## select input 
+
+```jsx
+<label htmlFor="favColor">What is your favorite color?</label>
+        <select id="favColor" name="favColor" defaultValue="" required>
+          <option value="" disabled>-- Choose a color --</option>
+          <option value="red">Red</option>
+          <option value="orange">Orange</option>
+          <option value="yellow">Yellow</option>
+          <option value="green">Green</option>
+          <option value="blue">Blue</option>
+          <option value="indigo">Indigo</option>
+          <option value="violet">Violet</option>
+        </select>
+```
+
+## get all Entries
+
+when we want all the entries of the form:-
+
+```jsx
+  function signUp(formData) {
+    console.log(Object.fromEntries(formData)) // returns a object of the data
+  }
+```
+
+it doesn't give the all items selected in the checkbox so to get them we can:-
+
+```jsx
+function signUp(formData) {
+    const data = Object.fromEntries(formData)
+    const dietaryRestrictions = formData.getAll("dietaryRestrictions")
+
+
+    const allData = { // combines all data
+      ...data,
+      dietaryRestrictions
+    } 
+  }
+```
+
+# conditional rendering
+
+
+## Short-Circuit Rendering
+
+it refers to not even render it in the page, not hidden, it simply doesn't exist unless a certain condition is matched.
+It’s not just hiding an element with CSS (display: none or visibility: hidden). It means the element isn’t even created or included in the DOM unless a condition is met.
+
+```jsx
+{isShown && <p>{props.punchline}</p>} // here && works as then
+
+
+// another example
+{isLoggedIn && <p>Welcome back!</p>} // If isLoggedIn is false, that <p> tag doesn’t exist at all in the rendered output. It’s like React says: “Nope, not even going to bother creating that.”
+{isLoggedIn ? <p>Welcome back!</p> : <p>Please log in.</p>} // You're guaranteed to render one <p> element
+```
+
+## ternary 
+
+```jsx
+<button onClick={toggleShown}>{isShown ? "Hide" : "Show"} punchline</button> // prints the text, hide or show
+```
+
+when using && it can lead to a bug that displays 0 as the value,because if we try to do something with a value that might return 0 like the string.length function then instead of rendering the text, react might render the 0.
+to avoid that we can use 
+
+```jsx
+{isShown ? <p>{props.punchline}</p> : null}
+
+// anohter way could be, be very explicit by how you are rendering ex:-
+{ingredients.length > 0 && <section>kuch bhi</section>}
+
+// don't use 
+{ingredients.length && <section>kuch bhi</section>} // will render a 0
+```
