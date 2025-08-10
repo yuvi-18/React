@@ -476,9 +476,72 @@ const entryElements = data.map((entry) => {
 
 Props refers to the properties being passed into a component in order for it to work correctly, similar to how a function receives parameters: "from above." A component receiving props is not allowed to modify those props. (I.e. they are "immutable.")
 
+in a custom element created by us, the attrivutes that are available to us can't be used as it will be seen as a custom prop by react ex:-
+
+```jsx
+<Star isFilled={contact.isFavorite} onClick={toggleFavorite} /> // here this onClick will not work as this would be seen as a custom prop made by us.
+
+//we can use one method that is :-
+
+<button
+            onClick={props.onClick} // provide a onclick in the recieving prop
+            aria-pressed={props.isFilled}
+            aria-label={props.isFilled ? "Remove from favorites" : "Add to favorites"}
+            className="favorite-button"
+        >
+```
+
+
 ## State
 
 State refers to values that are managed by the component, similar to variables declared inside a function. Any time you have changing values that should be saved/displayed, you'll likely be using state.
+
+state can't flow from a sibling to another sibling so to use the same state we need to initialise the state in a parent component and then we can use the downwards flow of data in react to access that state through props.
+
+
+## Inline styling 
+
+```jsx
+const styles = {
+        backgroundColor: "red", // use camel case as properties 
+        color: "white"
+    }
+    const buttonElements = pads.map(pad => (
+        <button style={styles} key={pad.id}></button> // we can also defien the styles here aswell like:-
+        <button style={{backgroundColor:"red",color: "white"}}></button>
+    ))
+
+
+// another example
+export default function App(props) { 
+    const [pads, setPads] = React.useState(padsData)
+
+    const styles = {
+        backgroundColor: props.darkMode ? "#222222" : "#cccccc"
+    }
+
+    const buttonElements = pads.map(pad => (
+        <button style={styles} key={pad.id}></button>
+    ))
+}
+```
+
+## React-markdown (ai integration)
+
+if you have implemented a ai that returns an repsonse in markdown, to highligh it properly instead of plain text we can :-
+
+```
+npm install react-markdown
+```
+
+```jsx
+
+import ReactMarkdown from "react-markdown"
+
+
+<ReactMarkdown>{recievedMarkdown}</ReactMarkdown>
+```
+
 
 # useState
 Importing React and useState:
