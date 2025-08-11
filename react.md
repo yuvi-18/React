@@ -664,6 +664,146 @@ return (
 
 Now simply import the Counter1.js in app.js and call the Counter1 for the output.
 
+
+# Use Effect
+
+In React, a side effect is anything your component does that affects something outside its own rendering process.
+exmple:-
+calling an api
+
+Why it’s called a "side effect"
+In programming, a “pure” function:
+Only calculates and returns a value.
+Does nothing else (no API calls, no global changes, no mutations).
+
+A React render should be pure — it just figures out what the UI should look like.
+If you do something else during or after rendering — like:
+Fetching data from an API
+Changing the DOM directly
+Setting up a timer
+Subscribing to events
+Writing to local storage
+…that’s a side effect.
+
+we can use a state to api call but if we want to render it as the page loads, we will be stuck in an infinite loop, as after the data is loaded the state makes a render and it triggers a new fetch request which then re renders, and this goes on,
+
+so we need useEffect to manage side effects in react:-
+
+
+useEffect is a React Hook that lets you run side effects in functional components — things that happen after React has updated the DOM.
+
+Why we need it
+React’s render process is supposed to be pure:
+It takes state & props → returns UI. (same vlaues = same ui)
+It should not fetch data, update the DOM directly, or set timers during render. (immutable = not affect outside system)
+
+
+```jsx
+useEffect(callback, dependencies?);
+
+
+import { useEffect } from "react";
+useEffect(() => {
+    console.log("Runs every render");
+});
+
+
+useEffect(() => {
+    console.log("runs only once (after the first render)");
+}, []);
+
+
+useEffect(() => {
+    console.log("Runs when count changes"); // the effect will always run at least once after the first render — and then again only when Value changes.
+}, [count]);
+
+```
+
+
+You can’t make the function you pass directly to useEffect async — React expects the return value to be either:
+undefined (no cleanup)
+or a cleanup function
+
+```jsx
+
+// wrong
+useEffect(async () => {
+    const data = await fetchData();
+    setData(data);
+}, []);
+
+// right
+useEffect(() => {
+    async function loadData() {
+        const res = await fetch("/api/data");
+        const json = await res.json();
+        setData(json);
+    }
+
+    loadData();
+}, []);
+```
+
+
+Cleanup is cery important to not leave any bug, or loop holes:-
+
+```jsx
+React.useEffect(() => {
+        function watchWindowWidth () {
+            setWindowWidth(window.innerWidth)
+        }
+
+        window.addEventListener("resize", watchWindowWidth)
+        return function() {
+            window.removeEventListener("resize", watchWindowWidth)
+        }
+    }, [])
+```
+
+
+# use Ref
+
+refs are similar to state but differ in :-
+can be  mutated
+changing ref doesn't cause re-render
+Can also be used to reference DOM elements directly
+
+
+```jsx
+import React, { useRef } from "react";
+
+export default function App() {
+  const myRef = useRef(null);
+
+  function handleScroll() {
+    myRef.current.scrollIntoView({ behavior: "smooth" });
+  }
+
+  return (
+    <div>
+      <button onClick={handleScroll}>Scroll to element</button>
+
+      <div>
+        {/* Spacer to simulate a long page */}
+        <p>Some content above...</p>
+        <p>Some content above...</p>
+        <p>Some content above...</p>
+        <p>Some content above...</p>
+        <p>Some content above...</p>
+      </div>
+
+      <div ref={myRef}>
+        <p>🎯 Target element</p>
+      </div>
+    </div>
+  );
+}
+```
+
+in this example we can directly access an dom node instead of creating ids and other ways to access it.
+
+
+
 # Forms
 
 A basic jsx form with important attributes:-
@@ -688,6 +828,66 @@ function App() {
   )
 }
 
+```
+
+## Controlled, uncontrolled
+
+Controlled:-
+
+React controls the form data via state (useState or this.state in class components).
+
+The value of the input is always determined by React’s state.
+
+You update the value using an onChange handler that calls setState / set....
+
+```jsx
+import React, { useState } from "react"
+
+export default function ControlledExample() {
+    const [name, setName] = useState("")
+
+    function handleChange(e) {
+        setName(e.target.value)
+    }
+
+    return (
+        <div>
+            <input
+                type="text"
+                value={name} // bound to React state
+                onChange={handleChange}
+            />
+            <p>Hello, {name}!</p>
+        </div>
+    )
+}
+```
+
+Uncontrolled:-
+The DOM stores the form data, not React.
+
+You access the value using a ref when needed.
+
+The input’s value is not bound to React state.
+
+```jsx
+import React, { useRef } from "react"
+
+export default function UncontrolledExample() {
+    const inputRef = useRef()
+
+    function handleSubmit(e) {
+        e.preventDefault()
+        alert(`You typed: ${inputRef.current.value}`)
+    }
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <input type="text" ref={inputRef} />
+            <button>Submit</button>
+        </form>
+    )
+}
 ```
 
 ## Form Submission
@@ -839,6 +1039,18 @@ function signUp(formData) {
       dietaryRestrictions
     } 
   }
+```
+
+## onChange
+changes based on every key stroke.
+
+```jsx
+<input
+    type="text"
+    placeholder="One does not simply"
+    name="topText"
+    onChange={handleChange}
+/>
 ```
 
 # conditional rendering
