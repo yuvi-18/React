@@ -778,7 +778,7 @@ export default function App() {
   function handleScroll() {
     myRef.current.scrollIntoView({ behavior: "smooth" });
   }
-
+  
   return (
     <div>
       <button onClick={handleScroll}>Scroll to element</button>
