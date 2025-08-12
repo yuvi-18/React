@@ -646,8 +646,13 @@ return (
 // React components should begin with an uppercase letter to adhere to conventions and avoid potential issues. Update counter1 to Counter1. This is not a technical error in itself but is good practice.
 ```
 
-Now simply import the Counter1.js in app.js and call the Counter1 for the output.
+## lazy initialization
 
+in react if we initialise the state with a function to hold the value, when it re-renders, the the function will run again and it will happen every time, to avoid this:-
+
+```jsx
+const [dice, setDice] = useState(() => generateAllNewDice()) // runs only once
+```
 
 # Use Effect
 
@@ -761,6 +766,7 @@ export default function App() {
 
   function handleScroll() {
     myRef.current.scrollIntoView({ behavior: "smooth" });
+   // buttonRef.current.focus() for tab focus
   }
   
   return (
@@ -785,6 +791,14 @@ export default function App() {
 ```
 
 in this example we can directly access an dom node instead of creating ids and other ways to access it.
+
+
+!Note :-
+don't use useEffect if:-
+You just want the ref itself to be attached to a DOM element so you can use it later in an event handler.
+
+use useEffect if:-
+You want to interact with the DOM immediately after the element is rendered or when a dependency (state) changes.
 
 
 
@@ -1092,4 +1106,102 @@ function generateAllNewDice() {
                 id: nanoid()
             }))
     }
+```
+
+
+# confetti 
+
+```
+npm install react-confetti
+```
+
+```jsx
+import React from 'react'
+import { useWindowSize } from 'react-use'
+import Confetti from 'react-confetti'
+
+export default () => {
+  const { width, height } = useWindowSize()
+  return (
+    <Confetti
+      width={width}
+      height={height}
+    />
+  )
+}
+```
+
+# asseccibilty 
+
+
+```jsx
+// use buttons or anchor links for clickable elemnts or for custom componenets we should add a tab index or onKeyDown 
+
+<div tabIndex={0} style={{ padding: "8px", border: "1px solid black" }}>
+        Focusable div with tabIndex=0
+</div>
+
+// ARIA (Accessible Rich Internet Applications) attributes
+
+<button aria-label="Close menu">❌</button>
+
+<button 
+    style={styles}
+    onClick={props.hold}
+    aria-label={`Die with value ${props.value}, 
+    ${props.isHeld ? "held" : "not held"}`}
+>{props.value}</button>
+
+// button selected or not:-
+
+aria-pressed={props.isHeld}
+
+//Alt for images
+
+ <img src="logo.png" alt="Company Logo" />
+
+// Ensure every form input has a label that screen readers can detect:
+
+<label htmlFor="email">Email</label>
+<input id="email" type="email" />
+
+// Let screen readers know when something changes without a page reload
+
+<div aria-live="polite" className="sr-only">
+    {gameWon && <p>Congratulations! You won! Press "New Game" to start again.</p>}
+</div>
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+// only visible to screen readers
+
+// use useRef to focus on something that needs focus for example, if we make a game, after winnig we may wnat the tab focus to be on the new game button, we can use ref for that:-
+
+ const buttonRef = useRef(null)
+
+ // this can be used on any dom element, not custom elemnets :-
+
+ <button ref={buttonRef} className="roll-dice" onClick={rollDice}>
+    {gameWon ? "New Game" : "Roll"}
+</button>
+
+
+// now we can access useEffect to use this ref on based on gameWon value:-
+
+useEffect(() => {
+    if (gameWon) {
+        buttonRef.current.focus()
+    }
+}, [gameWon])
+
 ```
