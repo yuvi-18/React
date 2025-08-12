@@ -226,6 +226,12 @@ for the component.
 import Header (any name) from "./Header.jsx"
 ```
 
+if it's not default export we can destructure and import like:-
+
+```jsx
+import {something} from "./something.jsx"
+```
+
 ## props 
 
 objects
@@ -1131,6 +1137,23 @@ export default () => {
 }
 ```
 
+# clsx
+
+to write classnames conditionally
+
+```jsx
+import { clsx } from "clsx"
+
+const className = clsx({
+    correct: isCorrect, // applies class correct if isCorrect is true
+    wrong: isWrong // applies class worng if isWrong is true
+})
+
+
+const className = clsx("chip", isLanguageLost && "lost") // always includes chip class in the className
+```
+
+
 # asseccibilty 
 
 
@@ -1185,6 +1208,13 @@ aria-pressed={props.isHeld}
 
 // only visible to screen readers
 
+ria-live="polite" // polite means reading it at the end not interuppting the current reading
+role="status" 
+
+// sr will know if button is disabled 
+
+aria-disabled={isGameOver}
+
 // use useRef to focus on something that needs focus for example, if we make a game, after winnig we may wnat the tab focus to be on the new game button, we can use ref for that:-
 
  const buttonRef = useRef(null)
@@ -1205,3 +1235,4 @@ useEffect(() => {
 }, [gameWon])
 
 ```
+
