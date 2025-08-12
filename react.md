@@ -340,23 +340,22 @@ That tells React to implicitly return whatever is inside the parentheses — in 
 
 No need for a return keyword or block statement, making the code tidier.
 
- 
-## conditional rendering
-if i wnat to include something like a setup for the joke i would use conditional rendering to render the setup
-part of that joke only if there's a setup part, else don't show the styling or the text or anything of the setup, so few ways to accomplish that directly in the dom could be:-
 
+## Calling a function
+In JSX (React):
+React allows calling functions inline directly within the markup using curly braces {}. For example:
 
 ```jsx
-
-// first way this will check if the setup prop exit then it will render it.
-  {props.setup && <p className="setup">Setup: {props.setup}</p>}
-  <p className="punchline">Punchline: {props.punchline}</p>
-
-// using ternary operators
- <p style={{display: props.setup ? "block" : "none"}} className="setup">Setup: {props.setup}</p>
-
-// or using some if else, swtich case etc.
+<button onClick={() => myFunction('Hello!')}>Click me</button>
 ```
+
+## Passing the Function Reference
+If the function doesn’t require arguments, you can simply pass its reference (not call it directly with parentheses). For example:
+
+```jsx
+<button onClick={myFunction}>Click me</button>
+```
+
 
 ## import satatic images by variable name
 can use variable names instead of images direct links in vite.
@@ -612,21 +611,6 @@ function toggleFavorite() {
         }
     })
 }
-```
-
-## Calling a function
-In JSX (React):
-React allows calling functions inline directly within the markup using curly braces {}. For example:
-
-```jsx
-<button onClick={() => myFunction('Hello!')}>Click me</button>
-```
-
-## Passing the Function Reference
-If the function doesn’t require arguments, you can simply pass its reference (not call it directly with parentheses). For example:
-
-```jsx
-<button onClick={myFunction}>Click me</button>
 ```
 
 
@@ -1054,7 +1038,8 @@ changes based on every key stroke.
 ```
 
 # conditional rendering
-
+if i wnat to include something like a setup for the joke i would use conditional rendering to render the setup
+part of that joke only if there's a setup part, else don't show the styling or the text or anything of the setup, so few ways to accomplish that directly in the dom could be:-
 
 ## Short-Circuit Rendering
 
@@ -1087,4 +1072,24 @@ to avoid that we can use
 
 // don't use 
 {ingredients.length && <section>kuch bhi</section>} // will render a 0
+```
+
+
+# id Generator
+a third party unique id generator that can be used for a state:-
+
+```
+npm install nanoid
+```
+
+```jsx
+function generateAllNewDice() {
+        return new Array(10)
+            .fill(0)
+            .map(() => ({
+                value: Math.ceil(Math.random() * 6),
+                isHeld: false,
+                id: nanoid()
+            }))
+    }
 ```
