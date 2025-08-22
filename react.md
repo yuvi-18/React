@@ -807,6 +807,59 @@ use useEffect if:-
 You want to interact with the DOM immediately after the element is rendered or when a dependency (state) changes.
 
 
+# contexts
+In React, Context is a way to share data across multiple components without having to pass props manually at every level (also called “prop drilling”).
+
+
+## Why use Context?
+Normally, if you have deeply nested components, you’d have to pass props step by step:
+App → Parent → Child → GrandChild
+If only GrandChild needs the data, but you keep passing it down through all the layers → that’s prop drilling.
+Context solves this problem.
+
+Create a context 
+
+```jsx
+import { createContext } from "react";
+
+export const ThemeContext = createContext();
+```
+
+Provide a value (using Provider)
+
+```jsx
+function App() {
+  return (
+    <ThemeContext.Provider value="dark">
+      <Toolbar />
+    </ThemeContext.Provider>
+  );
+}
+```
+
+Consume the value (using useContext)
+
+```jsx
+import { useContext } from "react";
+import { ThemeContext } from "./ThemeContext";
+
+function Button() {
+  const theme = useContext(ThemeContext);
+  return <button>{theme} mode</button>;
+}
+```
+
+its same as wrapping the entire app in browser router to acces the routes, route, link to navigate through the app, for ex:-
+
+```jsx
+<ThemeContext.Provider value="dark">
+  <App />
+</ThemeContext.Provider>
+```
+
+## children prop
+In React, the children prop is a special prop that represents the content you put between a component’s opening and closing tags.
+
 
 # Forms
 
